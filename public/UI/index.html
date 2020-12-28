@@ -193,7 +193,7 @@ window.addEventListener('load', async () => {
     }
     // Legacy dapp browsers...
     else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
+        window.web3 = new Web3("https://goerli.infura.io/v3/7578da0a4a8b4cffb367fe71192090d8");
     }
     // Non-dapp browsers...
     else {
