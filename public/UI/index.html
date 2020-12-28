@@ -180,33 +180,33 @@
     <script src="http://localhost:8337/UI/js/abi.js"></script>
 <script>
 
+window.addEventListener('load', async () => {
+    // Modern dapp browsers...
+    if (window.ethereum) {
+      try {
+        let ethereum = window.ethereum;
+        let web3 = window.web3;
+      if (typeof ethereum !== 'undefined') {
+        await ethereum.enable();
+        web3 = new Web3(ethereum);
+      } else if (typeof web3 !== 'undefined') {
+        web3 = new Web3(web3.currentProvider);
+      } else {
+        web3 = new Web3(new Web3.providers.HttpProvider());
+      }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // Legacy dapp browsers...
+    else if (window.web3) {
+        window.web3 = new Web3();
+    }
+    // Non-dapp browsers...
+    else {
+        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+    }
 
-let ethereum = window.ethereum;
-let web3 = window.web3;
-if (typeof ethereum !== 'undefined') {
- await ethereum.enable();
- web3 = new Web3(ethereum);
-} else if (typeof web3 !== 'undefined') {
- web3 = new Web3(web3.currentProvider);
-} else {
- web3 = new Web3(new Web3.providers.HttpProvider("https://goerli.infura.io/v3/7578da0a4a8b4cffb367fe71192090d8"));
-};
-
-// you should use chainId for network identity, and listen for
-// 'chainChanged'
-ethereum.on('chainChanged', chainId => {
-  // handle the new network
-})
-// if you want to expose yourself to the problems associated
-// with networkId, listen for 'networkChanged' instead
-ethereum.on('networkChanged', networkId => {
-  // handle the new network
-})
-// if you want to do as little as possible, these three lines
-// will emulate existing behavior
-ethereum.on('chainChanged', () => {
-  document.location.reload()
-})
 
 
 
