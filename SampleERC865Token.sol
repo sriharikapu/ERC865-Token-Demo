@@ -1,4 +1,13 @@
+
 pragma solidity 0.4.24;
+
+interface tokenRecipient {
+    function receiveApproval (address from, uint256 value, address token, bytes extraData) external;
+}
+
+interface ERC20CompatibleToken {
+    function transfer (address to, uint256 value) external returns (bool);
+}
 
 library SafeMath {
     /**
@@ -475,20 +484,15 @@ contract ERC865Token is ERC865, StandardToken, Ownable {
         require(_to != address(0));
         require(signatures[_signature] == false);
         signatures[_signature] = true;
-
         bytes32 hashedTx = transferFromPreSignedHashing(address(this), _from, _to, _value, _fee, _nonce);
-
         address spender = recover(hashedTx, _signature);
         require(spender != address(0));
         require(_value.add(_fee) <= balances[_from])​;
-
         balances[_from] = balances[_from].sub(_value);
         balances[_to] = balances[_to].add(_value);
         allowed[_from][spender] = allowed[_from][spender].sub(_value);
-
         balances[spender] = balances[spender].sub(_fee);
         balances[msg.sender] = balances[msg.sender].add(_fee);
-
         emit Transfer(_from, _to, _value);
         emit Transfer(spender, msg.sender, _fee);
         return true;
