@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -246,10 +246,10 @@ window.addEventListener('load', async () => {
           contract.transferFromContract(function(error, txHash) {
             if (!error) {
                 console.log(txHash);
-                //$("#label_common").text("Transaction hash : " + txHash);
+                $("#label_common").text("Transaction hash : " + txHash);
                 $("#txspan").show();
                 $("#linktx").text(txHash);
-                $("#linktx").attr('href', 'https://rinkeby.etherscan.io/tx/' + txHash);
+                $("#linktx").attr('href', 'https://goerli.etherscan.io/tx/' + txHash);
             } else {
               console.log(error);
               $("#label_common").text(error);
@@ -297,7 +297,9 @@ window.addEventListener('load', async () => {
 
       web3.eth.getAccounts(function(error, accounts) {
           contract.recoverPreSignedHash(ContractAddress, transferSig, to, val, fee, nonce, function(error, hash) {
+            console.log("Signature : "+transferSig)
             if (!error) {
+              console.log("accounts " ,accounts[0]);
               web3.eth.sign(accounts[0], hash, function(error, signature) {
                 if (!error) {
                   console.log(hash);
@@ -361,7 +363,7 @@ window.addEventListener('load', async () => {
                 //$("#label_common").text("Transaction hash : " + txHash);
                 $("#txspan").show();
                 $("#linktx").text(txHash);
-                $("#linktx").attr('href', 'https://rinkeby.etherscan.io/tx/' + txHash);
+                $("#linktx").attr('href', 'https://goerli.etherscan.io/tx/' + txHash);
             } else {
               console.log(error);
               $("#label_common").text(error);
