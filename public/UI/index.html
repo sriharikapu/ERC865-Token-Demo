@@ -295,12 +295,30 @@ window.addEventListener('load', async () => {
       var nonce = $("#nonce").val();
       var transferSig = "0x48664c16";
 
+
+      
+      // web3.eth.getAccounts(function(error, accounts) {
+      //     contract.transferPreSigned(sign, to, val, fee, nonce, function(error, txHash) {
+      //       if (!error) {
+      //           console.log(txHash);
+      //           //$("#label_common").text("Transaction hash : " + txHash);
+      //           $("#txspan").show();
+      //           $("#linktx").text(txHash);
+      //           $("#linktx").attr('href', 'https://goerli.etherscan.io/tx/' + txHash);
+      //       } else {
+      //         console.log(error);
+      //         $("#label_common").text(error);
+      //       }
+      //     });
+      // });
+
       web3.eth.getAccounts(function(error, accounts) {
           contract.recoverPreSignedHash(ContractAddress, transferSig, to, val, fee, nonce, function(error, hash) {
             console.log("Signature : "+transferSig)
+            console.log("accounts " ,accounts[0]);
             if (!error) {
               console.log("accounts " ,accounts[0]);
-              web3.eth.sign(accounts[0], hash, function(error, signature) {
+              //web3.eth.sign(accounts[0], hash, function(error, signature) {
                 if (!error) {
                   console.log(hash);
                   console.log(signature);
@@ -309,7 +327,7 @@ window.addEventListener('load', async () => {
                   console.log(error);
                   $("#label_common").text(error);
                 }
-              });
+              //});
             } else {
               console.log(error);
               $("#label_common").text(error);
